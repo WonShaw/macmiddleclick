@@ -11,6 +11,10 @@ final class MiddleClickEventTap {
         eventTap != nil
     }
 
+    deinit {
+        stop()
+    }
+
     @discardableResult
     func start() -> Bool {
         if isRunning {

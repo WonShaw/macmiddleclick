@@ -14,6 +14,7 @@
 		A10000000000000000000005 /* MiddleClickStateMachineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000007 /* MiddleClickStateMachineTests.swift */; };
 		A10000000000000000000006 /* MiddleClickEventTapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000008 /* MiddleClickEventTapTests.swift */; };
 		A10000000000000000000007 /* MiddleClickEventConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000010 /* MiddleClickEventConverter.swift */; };
+		A10000000000000000000008 /* MiddleClickEventConverterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000011 /* MiddleClickEventConverterTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,6 +38,7 @@
 		A20000000000000000000008 /* MiddleClickEventTapTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiddleClickEventTapTests.swift; sourceTree = "<group>"; };
 		A20000000000000000000009 /* MacMiddleClickTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MacMiddleClickTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A20000000000000000000010 /* MiddleClickEventConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiddleClickEventConverter.swift; sourceTree = "<group>"; };
+		A20000000000000000000011 /* MiddleClickEventConverterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiddleClickEventConverterTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -91,6 +93,7 @@
 		A40000000000000000000004 /* MacMiddleClickTests */ = {
 			isa = PBXGroup;
 			children = (
+				A20000000000000000000011 /* MiddleClickEventConverterTests.swift */,
 				A20000000000000000000007 /* MiddleClickStateMachineTests.swift */,
 				A20000000000000000000008 /* MiddleClickEventTapTests.swift */,
 			);
@@ -208,6 +211,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A10000000000000000000008 /* MiddleClickEventConverterTests.swift in Sources */,
 				A10000000000000000000005 /* MiddleClickStateMachineTests.swift in Sources */,
 				A10000000000000000000006 /* MiddleClickEventTapTests.swift in Sources */,
 			);

@@ -12,7 +12,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var isEnabled = true
 
     func applicationDidFinishLaunching(_ notification: Notification) {
-        NSApp.setActivationPolicy(.accessory)
         configureStatusItem()
 
         if !AccessibilityPermission.isTrusted {
@@ -20,13 +19,15 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         }
 
         refreshEngineAndMenu()
-        permissionTimer = Timer.scheduledTimer(
+        let timer = Timer.scheduledTimer(
             timeInterval: 1.5,
             target: self,
             selector: #selector(refreshEngineAndMenu),
             userInfo: nil,
             repeats: true
         )
+        timer.tolerance = 0.5
+        permissionTimer = timer
     }
 
     func applicationWillTerminate(_ notification: Notification) {
