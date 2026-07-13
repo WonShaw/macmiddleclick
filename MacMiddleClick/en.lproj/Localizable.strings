@@ -1,0 +1,11 @@
+"authorization.title" = "Use Fn + Left Click as Middle Click";
+"authorization.message" = "Hold Fn, then click or drag with the left mouse button (including a trackpad click) to send a middle-click event. This feature requires macOS Accessibility permission.";
+"authorization.confirm" = "OK, Request Access";
+"common.cancel" = "Cancel";
+
+"menu.mapping.enable" = "Fn + Left Click → Middle Click: Click to Enable";
+"menu.mapping.enabled" = "Fn + Left Click → Middle Click: Enabled";
+"menu.mapping.disabled" = "Fn + Left Click → Middle Click: Disabled";
+"menu.mapping.retry" = "Fn + Left Click → Middle Click: Failed to Enable, Click to Retry";
+"menu.creator" = "Made by SiuTech";
+"menu.quit" = "Quit MacMiddleClick";

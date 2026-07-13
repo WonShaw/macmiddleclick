@@ -1,0 +1,11 @@
+"authorization.title" = "使用 Fn + 左键模拟鼠标中键";
+"authorization.message" = "按住 Fn，再点击或拖动鼠标左键（包括触摸板左键），即可发送鼠标中键。此功能需要开启 macOS“辅助功能”权限。";
+"authorization.confirm" = "好，去授权";
+"common.cancel" = "取消";
+
+"menu.mapping.enable" = "Fn + 左键 → 中键：点击启用";
+"menu.mapping.enabled" = "Fn + 左键 → 中键：已启用";
+"menu.mapping.disabled" = "Fn + 左键 → 中键：已禁用";
+"menu.mapping.retry" = "Fn + 左键 → 中键：启用失败，点击重试";
+"menu.creator" = "由 SiuTech 制作";
+"menu.quit" = "退出 MacMiddleClick";

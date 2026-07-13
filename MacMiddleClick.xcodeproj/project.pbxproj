@@ -16,6 +16,7 @@
 		A10000000000000000000007 /* MiddleClickEventConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000010 /* MiddleClickEventConverter.swift */; };
 		A10000000000000000000008 /* MiddleClickEventConverterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000011 /* MiddleClickEventConverterTests.swift */; };
 		A10000000000000000000009 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000012 /* Assets.xcassets */; };
+		A10000000000000000000010 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000015 /* Localizable.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,6 +42,8 @@
 		A20000000000000000000010 /* MiddleClickEventConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiddleClickEventConverter.swift; sourceTree = "<group>"; };
 		A20000000000000000000011 /* MiddleClickEventConverterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiddleClickEventConverterTests.swift; sourceTree = "<group>"; };
 		A20000000000000000000012 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		A20000000000000000000013 /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Localizable.strings; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		A20000000000000000000014 /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Localizable.strings; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,6 +77,7 @@
 			isa = PBXGroup;
 			children = (
 				A20000000000000000000012 /* Assets.xcassets */,
+				A20000000000000000000015 /* Localizable.strings */,
 				A20000000000000000000001 /* AppDelegate.swift */,
 				A20000000000000000000002 /* MiddleClickEventTap.swift */,
 				A20000000000000000000006 /* MiddleClickStateMachine.swift */,
@@ -166,6 +170,7 @@
 			knownRegions = (
 				en,
 				Base,
+				"zh-Hans",
 			);
 			mainGroup = A40000000000000000000001;
 			minimizedProjectReferenceProxies = 1;
@@ -186,6 +191,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A10000000000000000000009 /* Assets.xcassets in Resources */,
+				A10000000000000000000010 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -230,6 +236,18 @@
 			targetProxy = AC0000000000000000000001 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		A20000000000000000000015 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A20000000000000000000013 /* Localizable.strings */,
+				A20000000000000000000014 /* Localizable.strings */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		AA0000000000000000000001 /* Debug */ = {

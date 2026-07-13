@@ -60,10 +60,18 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         actionMenuItem.target = self
         menu.addItem(actionMenuItem)
 
+        let creatorItem = NSMenuItem(
+            title: localized("menu.creator"),
+            action: nil,
+            keyEquivalent: ""
+        )
+        creatorItem.isEnabled = false
+        menu.addItem(creatorItem)
+
         menu.addItem(.separator())
 
         let quitItem = NSMenuItem(
-            title: "退出 MacMiddleClick",
+            title: localized("menu.quit"),
             action: #selector(NSApplication.terminate(_:)),
             keyEquivalent: "q"
         )
@@ -96,13 +104,13 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         }
 
         if !trusted {
-            actionMenuItem.title = "Fn + 左键 → 中键：点击启用"
+            actionMenuItem.title = localized("menu.mapping.enable")
         } else if !isEnabled {
-            actionMenuItem.title = "Fn + 左键 → 中键：已禁用"
+            actionMenuItem.title = localized("menu.mapping.disabled")
         } else if middleClickEventTap.isRunning {
-            actionMenuItem.title = "Fn + 左键 → 中键：已启用"
+            actionMenuItem.title = localized("menu.mapping.enabled")
         } else {
-            actionMenuItem.title = "Fn + 左键 → 中键：启用失败，点击重试"
+            actionMenuItem.title = localized("menu.mapping.retry")
         }
 
         statusItem.button?.image = statusImage()
@@ -121,15 +129,19 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         NSApp.activate(ignoringOtherApps: true)
 
         let alert = NSAlert()
-        alert.messageText = "使用 Fn + 左键模拟鼠标中键"
-        alert.informativeText = "按住 Fn，再点击或拖动鼠标左键（包括触摸板左键），即可发送鼠标中键。此功能需要开启 macOS“辅助功能”权限。"
+        alert.messageText = localized("authorization.title")
+        alert.informativeText = localized("authorization.message")
         alert.alertStyle = .informational
-        alert.addButton(withTitle: "好，去授权")
-        alert.addButton(withTitle: "取消")
+        alert.addButton(withTitle: localized("authorization.confirm"))
+        alert.addButton(withTitle: localized("common.cancel"))
 
         if alert.runModal() == .alertFirstButtonReturn {
             isEnabled = true
             AccessibilityPermission.request()
         }
     }
+}
+
+private func localized(_ key: String) -> String {
+    NSLocalizedString(key, comment: "")
 }
