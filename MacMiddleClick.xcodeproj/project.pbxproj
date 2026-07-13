@@ -10,7 +10,21 @@
 		A10000000000000000000001 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000001 /* AppDelegate.swift */; };
 		A10000000000000000000002 /* MiddleClickEventTap.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000002 /* MiddleClickEventTap.swift */; };
 		A10000000000000000000003 /* AccessibilityPermission.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000003 /* AccessibilityPermission.swift */; };
+		A10000000000000000000004 /* MiddleClickStateMachine.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000006 /* MiddleClickStateMachine.swift */; };
+		A10000000000000000000005 /* MiddleClickStateMachineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000007 /* MiddleClickStateMachineTests.swift */; };
+		A10000000000000000000006 /* MiddleClickEventTapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000008 /* MiddleClickEventTapTests.swift */; };
+		A10000000000000000000007 /* MiddleClickEventConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000010 /* MiddleClickEventConverter.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		AC0000000000000000000001 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A80000000000000000000001 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A50000000000000000000001;
+			remoteInfo = MacMiddleClick;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		A20000000000000000000001 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -18,10 +32,22 @@
 		A20000000000000000000003 /* AccessibilityPermission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityPermission.swift; sourceTree = "<group>"; };
 		A20000000000000000000004 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A20000000000000000000005 /* MacMiddleClick.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MacMiddleClick.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A20000000000000000000006 /* MiddleClickStateMachine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiddleClickStateMachine.swift; sourceTree = "<group>"; };
+		A20000000000000000000007 /* MiddleClickStateMachineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiddleClickStateMachineTests.swift; sourceTree = "<group>"; };
+		A20000000000000000000008 /* MiddleClickEventTapTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiddleClickEventTapTests.swift; sourceTree = "<group>"; };
+		A20000000000000000000009 /* MacMiddleClickTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MacMiddleClickTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A20000000000000000000010 /* MiddleClickEventConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiddleClickEventConverter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		A30000000000000000000001 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A30000000000000000000002 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -35,6 +61,7 @@
 			isa = PBXGroup;
 			children = (
 				A40000000000000000000002 /* MacMiddleClick */,
+				A40000000000000000000004 /* MacMiddleClickTests */,
 				A40000000000000000000003 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -44,6 +71,8 @@
 			children = (
 				A20000000000000000000001 /* AppDelegate.swift */,
 				A20000000000000000000002 /* MiddleClickEventTap.swift */,
+				A20000000000000000000006 /* MiddleClickStateMachine.swift */,
+				A20000000000000000000010 /* MiddleClickEventConverter.swift */,
 				A20000000000000000000003 /* AccessibilityPermission.swift */,
 				A20000000000000000000004 /* Info.plist */,
 			);
@@ -54,8 +83,18 @@
 			isa = PBXGroup;
 			children = (
 				A20000000000000000000005 /* MacMiddleClick.app */,
+				A20000000000000000000009 /* MacMiddleClickTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		A40000000000000000000004 /* MacMiddleClickTests */ = {
+			isa = PBXGroup;
+			children = (
+				A20000000000000000000007 /* MiddleClickStateMachineTests.swift */,
+				A20000000000000000000008 /* MiddleClickEventTapTests.swift */,
+			);
+			path = MacMiddleClickTests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -78,6 +117,24 @@
 			productReference = A20000000000000000000005 /* MacMiddleClick.app */;
 			productType = "com.apple.product-type.application";
 		};
+		A50000000000000000000002 /* MacMiddleClickTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A90000000000000000000003 /* Build configuration list for PBXNativeTarget "MacMiddleClickTests" */;
+			buildPhases = (
+				A60000000000000000000002 /* Sources */,
+				A30000000000000000000002 /* Frameworks */,
+				A70000000000000000000002 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				AB0000000000000000000001 /* PBXTargetDependency */,
+			);
+			name = MacMiddleClickTests;
+			productName = MacMiddleClickTests;
+			productReference = A20000000000000000000009 /* MacMiddleClickTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -90,6 +147,10 @@
 				TargetAttributes = {
 					A50000000000000000000001 = {
 						CreatedOnToolsVersion = 26.6;
+					};
+					A50000000000000000000002 = {
+						CreatedOnToolsVersion = 26.6;
+						TestTargetID = A50000000000000000000001;
 					};
 				};
 			};
@@ -108,12 +169,20 @@
 			projectRoot = "";
 			targets = (
 				A50000000000000000000001 /* MacMiddleClick */,
+				A50000000000000000000002 /* MacMiddleClickTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		A70000000000000000000001 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A70000000000000000000002 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -130,10 +199,29 @@
 				A10000000000000000000001 /* AppDelegate.swift in Sources */,
 				A10000000000000000000002 /* MiddleClickEventTap.swift in Sources */,
 				A10000000000000000000003 /* AccessibilityPermission.swift in Sources */,
+				A10000000000000000000004 /* MiddleClickStateMachine.swift in Sources */,
+				A10000000000000000000007 /* MiddleClickEventConverter.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A60000000000000000000002 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A10000000000000000000005 /* MiddleClickStateMachineTests.swift in Sources */,
+				A10000000000000000000006 /* MiddleClickEventTapTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		AB0000000000000000000001 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A50000000000000000000001 /* MacMiddleClick */;
+			targetProxy = AC0000000000000000000001 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		AA0000000000000000000001 /* Debug */ = {
@@ -213,6 +301,36 @@
 			};
 			name = Release;
 		};
+		AA0000000000000000000005 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.shaw.MacMiddleClickTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = macosx;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MacMiddleClick.app/Contents/MacOS/MacMiddleClick";
+			};
+			name = Debug;
+		};
+		AA0000000000000000000006 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.shaw.MacMiddleClickTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = macosx;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MacMiddleClick.app/Contents/MacOS/MacMiddleClick";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -230,6 +348,15 @@
 			buildConfigurations = (
 				AA0000000000000000000003 /* Debug */,
 				AA0000000000000000000004 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A90000000000000000000003 /* Build configuration list for PBXNativeTarget "MacMiddleClickTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AA0000000000000000000005 /* Debug */,
+				AA0000000000000000000006 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

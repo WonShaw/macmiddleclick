@@ -5,7 +5,7 @@ import Foundation
 final class MiddleClickEventTap {
     private var eventTap: CFMachPort?
     private var runLoopSource: CFRunLoopSource?
-    private var isConvertingClick = false
+    private let eventConverter = MiddleClickEventConverter()
 
     var isRunning: Bool {
         eventTap != nil
@@ -51,7 +51,7 @@ final class MiddleClickEventTap {
     }
 
     func stop() {
-        isConvertingClick = false
+        eventConverter.reset()
 
         if let source = runLoopSource {
             CFRunLoopRemoveSource(CFRunLoopGetMain(), source, .commonModes)
@@ -65,49 +65,16 @@ final class MiddleClickEventTap {
         }
     }
 
-    fileprivate func handle(type: CGEventType, event: CGEvent) -> Unmanaged<CGEvent>? {
+    func handle(type: CGEventType, event: CGEvent) -> Unmanaged<CGEvent>? {
         if type == .tapDisabledByTimeout || type == .tapDisabledByUserInput {
+            eventConverter.reset()
             if let eventTap {
                 CGEvent.tapEnable(tap: eventTap, enable: true)
             }
             return Unmanaged.passUnretained(event)
         }
 
-        switch type {
-        case .leftMouseDown:
-            guard event.flags.contains(.maskSecondaryFn) else {
-                return Unmanaged.passUnretained(event)
-            }
-            isConvertingClick = true
-            convert(event, to: .otherMouseDown)
-
-        case .leftMouseDragged:
-            guard isConvertingClick else {
-                return Unmanaged.passUnretained(event)
-            }
-            convert(event, to: .otherMouseDragged)
-
-        case .leftMouseUp:
-            guard isConvertingClick else {
-                return Unmanaged.passUnretained(event)
-            }
-            convert(event, to: .otherMouseUp)
-            isConvertingClick = false
-
-        default:
-            break
-        }
-
-        return Unmanaged.passUnretained(event)
-    }
-
-    private func convert(_ event: CGEvent, to type: CGEventType) {
-        var flags = event.flags
-        flags.remove(.maskSecondaryFn)
-
-        event.flags = flags
-        event.type = type
-        event.setIntegerValueField(.mouseEventButtonNumber, value: 2)
+        return Unmanaged.passUnretained(eventConverter.process(type: type, event: event))
     }
 }
 

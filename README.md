@@ -25,6 +25,20 @@
 
 禁用状态不会保存。重新启动应用或从菜单重新请求授权时，都会默认启用映射。
 
+## 测试
+
+在 Xcode 中选择 `MacMiddleClick` scheme 后按 `⌘U`，或者运行：
+
+```sh
+xcodebuild \
+  -project MacMiddleClick.xcodeproj \
+  -scheme MacMiddleClick \
+  -destination 'platform=macOS,arch=arm64' \
+  test
+```
+
+单元测试覆盖 Fn 点击状态机、完整中键拖动序列、事件字段改写、修饰键处理以及事件监听被系统重置后的恢复状态。创建真实的全局 Event Tap 仍需要在实际应用运行时授予辅助功能权限，因此不在无权限的单元测试进程中执行。
+
 ## 技术实现
 
 - `CGEventTap` 监听左键按下、拖动和释放。
