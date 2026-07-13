@@ -1,6 +1,16 @@
 import AppKit
 
 @main
+enum MacMiddleClickApplication {
+    private static let appDelegate = AppDelegate()
+
+    static func main() {
+        let application = NSApplication.shared
+        application.delegate = appDelegate
+        application.run()
+    }
+}
+
 final class AppDelegate: NSObject, NSApplicationDelegate {
     private let middleClickEventTap = MiddleClickEventTap()
     private var statusItem: NSStatusItem!
