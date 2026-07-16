@@ -2,10 +2,17 @@
 "authorization.message" = "Hold Fn, then click or drag with the left mouse button (including a trackpad click) to send a middle-click event. This feature requires macOS Accessibility permission.";
 "authorization.confirm" = "OK, Request Access";
 "common.cancel" = "Cancel";
+"common.ok" = "OK";
 
 "menu.mapping.enable" = "Fn + Left Click → Middle Click: Click to Enable";
 "menu.mapping.enabled" = "Fn + Left Click → Middle Click: Enabled";
 "menu.mapping.disabled" = "Fn + Left Click → Middle Click: Disabled";
 "menu.mapping.retry" = "Fn + Left Click → Middle Click: Failed to Enable, Click to Retry";
+"menu.launchAtLogin" = "Start Automatically";
+"menu.launchAtLogin.openSettings" = "Allow Automatic Startup in System Settings…";
+"menu.launchAtLogin.retry" = "Automatic Startup Failed, Click to Retry";
 "menu.creator" = "Made by SiuTech";
 "menu.quit" = "Quit MacMiddleClick";
+
+"launchAtLogin.error.title" = "Couldn’t Update Automatic Startup";
+"launchAtLogin.error.message" = "macOS couldn’t update the automatic startup item. %@";

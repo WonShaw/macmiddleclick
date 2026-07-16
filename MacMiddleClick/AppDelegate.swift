@@ -11,11 +11,16 @@ enum MacMiddleClickApplication {
     }
 }
 
-final class AppDelegate: NSObject, NSApplicationDelegate {
+final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     private let middleClickEventTap = MiddleClickEventTap()
+    private let launchAtLoginController = LaunchAtLoginController()
     private var statusItem: NSStatusItem!
     private var permissionTimer: Timer?
+    private var permissionTimerSchedule:
+        AccessibilityPermissionPollingPolicy.Schedule?
     private var actionMenuItem: NSMenuItem!
+    private var launchAtLoginMenuItem: NSMenuItem!
+    private var launchAtLoginAttentionMenuItem: NSMenuItem!
 
     // Deliberately not persisted: launching the app always means the user wants
     // the mapping enabled.
@@ -23,26 +28,26 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         configureStatusItem()
+        launchAtLoginController.synchronizeAtLaunch()
 
         if !AccessibilityPermission.isTrusted {
             presentAuthorizationIntroduction()
         }
 
         refreshEngineAndMenu()
-        let timer = Timer.scheduledTimer(
-            timeInterval: 1.5,
-            target: self,
-            selector: #selector(refreshEngineAndMenu),
-            userInfo: nil,
-            repeats: true
-        )
-        timer.tolerance = 0.5
-        permissionTimer = timer
+        refreshLaunchAtLoginMenu()
     }
 
     func applicationWillTerminate(_ notification: Notification) {
         permissionTimer?.invalidate()
+        permissionTimer = nil
+        permissionTimerSchedule = nil
         middleClickEventTap.stop()
+    }
+
+    func menuNeedsUpdate(_ menu: NSMenu) {
+        refreshEngineAndMenu()
+        refreshLaunchAtLoginMenu()
     }
 
     private func configureStatusItem() {
@@ -51,6 +56,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         statusItem.button?.image?.isTemplate = true
 
         let menu = NSMenu()
+        menu.delegate = self
 
         actionMenuItem = NSMenuItem(
             title: "",
@@ -59,6 +65,24 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         )
         actionMenuItem.target = self
         menu.addItem(actionMenuItem)
+
+        launchAtLoginMenuItem = NSMenuItem(
+            title: "",
+            action: #selector(performLaunchAtLoginAction),
+            keyEquivalent: ""
+        )
+        launchAtLoginMenuItem.target = self
+        menu.addItem(launchAtLoginMenuItem)
+
+        launchAtLoginAttentionMenuItem = NSMenuItem(
+            title: "",
+            action: #selector(performLaunchAtLoginAttentionAction),
+            keyEquivalent: ""
+        )
+        launchAtLoginAttentionMenuItem.target = self
+        launchAtLoginAttentionMenuItem.indentationLevel = 1
+        launchAtLoginAttentionMenuItem.isHidden = true
+        menu.addItem(launchAtLoginAttentionMenuItem)
 
         let creatorItem = NSMenuItem(
             title: localized("menu.creator"),
@@ -94,6 +118,21 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         refreshEngineAndMenu()
     }
 
+    @objc private func performLaunchAtLoginAction() {
+        do {
+            try launchAtLoginController.toggle()
+        } catch {
+            presentLaunchAtLoginError(error)
+        }
+
+        refreshLaunchAtLoginMenu()
+    }
+
+    @objc private func performLaunchAtLoginAttentionAction() {
+        launchAtLoginController.performAttentionAction()
+        refreshLaunchAtLoginMenu()
+    }
+
     @objc private func refreshEngineAndMenu() {
         let trusted = AccessibilityPermission.isTrusted
 
@@ -116,6 +155,52 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         statusItem.button?.image = statusImage()
         statusItem.button?.image?.isTemplate = true
         statusItem.button?.toolTip = actionMenuItem.title
+        updatePermissionTimer(isTrusted: trusted)
+    }
+
+    private func updatePermissionTimer(isTrusted: Bool) {
+        let schedule = AccessibilityPermissionPollingPolicy.schedule(
+            isTrusted: isTrusted
+        )
+        guard permissionTimerSchedule != schedule else {
+            return
+        }
+
+        permissionTimer?.invalidate()
+        let timer = Timer.scheduledTimer(
+            timeInterval: schedule.interval,
+            target: self,
+            selector: #selector(refreshEngineAndMenu),
+            userInfo: nil,
+            repeats: true
+        )
+        timer.tolerance = schedule.tolerance
+        permissionTimer = timer
+        permissionTimerSchedule = schedule
+    }
+
+    private func refreshLaunchAtLoginMenu() {
+        launchAtLoginMenuItem.title = localized("menu.launchAtLogin")
+        launchAtLoginMenuItem.state = launchAtLoginController.isEnabledByUser
+            ? .on
+            : .off
+
+        switch launchAtLoginController.attention {
+        case .requiresApproval:
+            launchAtLoginAttentionMenuItem.title = localized(
+                "menu.launchAtLogin.openSettings"
+            )
+            launchAtLoginAttentionMenuItem.isHidden = false
+
+        case .registrationFailed:
+            launchAtLoginAttentionMenuItem.title = localized(
+                "menu.launchAtLogin.retry"
+            )
+            launchAtLoginAttentionMenuItem.isHidden = false
+
+        case nil:
+            launchAtLoginAttentionMenuItem.isHidden = true
+        }
     }
 
     private func statusImage() -> NSImage? {
@@ -139,6 +224,20 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             isEnabled = true
             AccessibilityPermission.request()
         }
+    }
+
+    private func presentLaunchAtLoginError(_ error: Error) {
+        NSApp.activate(ignoringOtherApps: true)
+
+        let alert = NSAlert()
+        alert.messageText = localized("launchAtLogin.error.title")
+        alert.informativeText = String(
+            format: localized("launchAtLogin.error.message"),
+            error.localizedDescription
+        )
+        alert.alertStyle = .warning
+        alert.addButton(withTitle: localized("common.ok"))
+        alert.runModal()
     }
 }
 

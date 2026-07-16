@@ -17,6 +17,10 @@
 		A10000000000000000000008 /* MiddleClickEventConverterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000011 /* MiddleClickEventConverterTests.swift */; };
 		A10000000000000000000009 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000012 /* Assets.xcassets */; };
 		A10000000000000000000010 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000015 /* Localizable.strings */; };
+		A10000000000000000000011 /* LaunchAtLoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000016 /* LaunchAtLoginController.swift */; };
+		A10000000000000000000012 /* LaunchAtLoginControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000017 /* LaunchAtLoginControllerTests.swift */; };
+		A10000000000000000000013 /* AccessibilityPermissionPollingPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000018 /* AccessibilityPermissionPollingPolicy.swift */; };
+		A10000000000000000000014 /* AccessibilityPermissionPollingPolicyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000019 /* AccessibilityPermissionPollingPolicyTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +48,10 @@
 		A20000000000000000000012 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A20000000000000000000013 /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Localizable.strings; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		A20000000000000000000014 /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Localizable.strings; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		A20000000000000000000016 /* LaunchAtLoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchAtLoginController.swift; sourceTree = "<group>"; };
+		A20000000000000000000017 /* LaunchAtLoginControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchAtLoginControllerTests.swift; sourceTree = "<group>"; };
+		A20000000000000000000018 /* AccessibilityPermissionPollingPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityPermissionPollingPolicy.swift; sourceTree = "<group>"; };
+		A20000000000000000000019 /* AccessibilityPermissionPollingPolicyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityPermissionPollingPolicyTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +91,8 @@
 				A20000000000000000000006 /* MiddleClickStateMachine.swift */,
 				A20000000000000000000010 /* MiddleClickEventConverter.swift */,
 				A20000000000000000000003 /* AccessibilityPermission.swift */,
+				A20000000000000000000018 /* AccessibilityPermissionPollingPolicy.swift */,
+				A20000000000000000000016 /* LaunchAtLoginController.swift */,
 				A20000000000000000000004 /* Info.plist */,
 			);
 			path = MacMiddleClick;
@@ -100,6 +110,8 @@
 		A40000000000000000000004 /* MacMiddleClickTests */ = {
 			isa = PBXGroup;
 			children = (
+				A20000000000000000000019 /* AccessibilityPermissionPollingPolicyTests.swift */,
+				A20000000000000000000017 /* LaunchAtLoginControllerTests.swift */,
 				A20000000000000000000011 /* MiddleClickEventConverterTests.swift */,
 				A20000000000000000000007 /* MiddleClickStateMachineTests.swift */,
 				A20000000000000000000008 /* MiddleClickEventTapTests.swift */,
@@ -214,6 +226,8 @@
 				A10000000000000000000003 /* AccessibilityPermission.swift in Sources */,
 				A10000000000000000000004 /* MiddleClickStateMachine.swift in Sources */,
 				A10000000000000000000007 /* MiddleClickEventConverter.swift in Sources */,
+				A10000000000000000000011 /* LaunchAtLoginController.swift in Sources */,
+				A10000000000000000000013 /* AccessibilityPermissionPollingPolicy.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -224,6 +238,8 @@
 				A10000000000000000000008 /* MiddleClickEventConverterTests.swift in Sources */,
 				A10000000000000000000005 /* MiddleClickStateMachineTests.swift in Sources */,
 				A10000000000000000000006 /* MiddleClickEventTapTests.swift in Sources */,
+				A10000000000000000000012 /* LaunchAtLoginControllerTests.swift in Sources */,
+				A10000000000000000000014 /* AccessibilityPermissionPollingPolicyTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
