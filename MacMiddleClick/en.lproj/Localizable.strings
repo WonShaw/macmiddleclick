@@ -8,7 +8,8 @@
 "menu.mapping.enabled" = "Fn + Left Click → Middle Click: Enabled";
 "menu.mapping.disabled" = "Fn + Left Click → Middle Click: Disabled";
 "menu.mapping.retry" = "Fn + Left Click → Middle Click: Failed to Enable, Click to Retry";
-"menu.launchAtLogin" = "Start Automatically";
+"menu.launchAtLogin.enabled" = "Start Automatically: Enabled";
+"menu.launchAtLogin.disabled" = "Start Automatically: Disabled";
 "menu.launchAtLogin.openSettings" = "Allow Automatic Startup in System Settings…";
 "menu.launchAtLogin.retry" = "Automatic Startup Failed, Click to Retry";
 "menu.creator" = "Made by SiuTech";

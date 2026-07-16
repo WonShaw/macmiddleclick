@@ -179,10 +179,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     }
 
     private func refreshLaunchAtLoginMenu() {
-        launchAtLoginMenuItem.title = localized("menu.launchAtLogin")
-        launchAtLoginMenuItem.state = launchAtLoginController.isEnabledByUser
-            ? .on
-            : .off
+        let titleKey = launchAtLoginController.isEnabledByUser
+            ? "menu.launchAtLogin.enabled"
+            : "menu.launchAtLogin.disabled"
+        launchAtLoginMenuItem.title = localized(titleKey)
+        launchAtLoginMenuItem.state = .off
 
         switch launchAtLoginController.attention {
         case .requiresApproval:

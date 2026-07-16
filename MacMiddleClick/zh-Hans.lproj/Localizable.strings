@@ -8,7 +8,8 @@
 "menu.mapping.enabled" = "Fn + 左键 → 中键：已启用";
 "menu.mapping.disabled" = "Fn + 左键 → 中键：已禁用";
 "menu.mapping.retry" = "Fn + 左键 → 中键：启用失败，点击重试";
-"menu.launchAtLogin" = "开机后自动启动";
+"menu.launchAtLogin.enabled" = "开机后自动启动：已启用";
+"menu.launchAtLogin.disabled" = "开机后自动启动：已禁用";
 "menu.launchAtLogin.openSettings" = "需要在系统设置中允许自动启动…";
 "menu.launchAtLogin.retry" = "自动启动设置失败，点击重试";
 "menu.creator" = "由 SiuTech 制作";
