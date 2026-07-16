@@ -32,6 +32,21 @@ final class MiddleClickEventTapTests: XCTestCase {
         }
     }
 
+    func testDisabledTapEventsRequestAStateRefresh() throws {
+        for disabledType in [CGEventType.tapDisabledByTimeout, .tapDisabledByUserInput] {
+            let eventTap = MiddleClickEventTap()
+            var refreshCount = 0
+            eventTap.onDisabled = {
+                refreshCount += 1
+            }
+
+            let disabledEvent = try makeEvent(type: .mouseMoved)
+            _ = eventTap.handle(type: disabledType, event: disabledEvent)
+
+            XCTAssertEqual(refreshCount, 1)
+        }
+    }
+
     func testDeinitStopsAndReleasesEventTap() {
         weak var weakEventTap: MiddleClickEventTap?
 

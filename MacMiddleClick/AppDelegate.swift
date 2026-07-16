@@ -15,9 +15,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     private let middleClickEventTap = MiddleClickEventTap()
     private let launchAtLoginController = LaunchAtLoginController()
     private var statusItem: NSStatusItem!
-    private var permissionTimer: Timer?
-    private var permissionTimerSchedule:
-        AccessibilityPermissionPollingPolicy.Schedule?
+    private var workspaceActivationObserver: NSObjectProtocol?
     private var actionMenuItem: NSMenuItem!
     private var launchAtLoginMenuItem: NSMenuItem!
     private var launchAtLoginAttentionMenuItem: NSMenuItem!
@@ -28,6 +26,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         configureStatusItem()
+        configureEventDrivenPermissionChecks()
         launchAtLoginController.synchronizeAtLaunch()
 
         if !AccessibilityPermission.isTrusted {
@@ -39,9 +38,13 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     }
 
     func applicationWillTerminate(_ notification: Notification) {
-        permissionTimer?.invalidate()
-        permissionTimer = nil
-        permissionTimerSchedule = nil
+        if let workspaceActivationObserver {
+            NSWorkspace.shared.notificationCenter.removeObserver(
+                workspaceActivationObserver
+            )
+            self.workspaceActivationObserver = nil
+        }
+        middleClickEventTap.onDisabled = nil
         middleClickEventTap.stop()
     }
 
@@ -104,6 +107,24 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         statusItem.menu = menu
     }
 
+    private func configureEventDrivenPermissionChecks() {
+        middleClickEventTap.onDisabled = { [weak self] in
+            // Avoid invalidating the tap while its callback is still running.
+            DispatchQueue.main.async { [weak self] in
+                self?.refreshEngineAndMenu()
+            }
+        }
+
+        workspaceActivationObserver = NSWorkspace.shared.notificationCenter
+            .addObserver(
+                forName: NSWorkspace.didActivateApplicationNotification,
+                object: nil,
+                queue: .main
+            ) { [weak self] _ in
+                self?.refreshEngineAndMenu()
+            }
+    }
+
     @objc private func performPrimaryAction() {
         if !AccessibilityPermission.isTrusted {
             // Re-requesting authorization always expresses an intent to enable.
@@ -133,7 +154,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         refreshLaunchAtLoginMenu()
     }
 
-    @objc private func refreshEngineAndMenu() {
+    private func refreshEngineAndMenu() {
         let trusted = AccessibilityPermission.isTrusted
 
         if isEnabled && trusted {
@@ -155,28 +176,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         statusItem.button?.image = statusImage()
         statusItem.button?.image?.isTemplate = true
         statusItem.button?.toolTip = actionMenuItem.title
-        updatePermissionTimer(isTrusted: trusted)
-    }
-
-    private func updatePermissionTimer(isTrusted: Bool) {
-        let schedule = AccessibilityPermissionPollingPolicy.schedule(
-            isTrusted: isTrusted
-        )
-        guard permissionTimerSchedule != schedule else {
-            return
-        }
-
-        permissionTimer?.invalidate()
-        let timer = Timer.scheduledTimer(
-            timeInterval: schedule.interval,
-            target: self,
-            selector: #selector(refreshEngineAndMenu),
-            userInfo: nil,
-            repeats: true
-        )
-        timer.tolerance = schedule.tolerance
-        permissionTimer = timer
-        permissionTimerSchedule = schedule
     }
 
     private func refreshLaunchAtLoginMenu() {

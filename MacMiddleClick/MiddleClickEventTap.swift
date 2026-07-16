@@ -6,6 +6,7 @@ final class MiddleClickEventTap {
     private var eventTap: CFMachPort?
     private var runLoopSource: CFRunLoopSource?
     private let eventConverter = MiddleClickEventConverter()
+    var onDisabled: (() -> Void)?
 
     var isRunning: Bool {
         eventTap != nil
@@ -75,6 +76,7 @@ final class MiddleClickEventTap {
             if let eventTap {
                 CGEvent.tapEnable(tap: eventTap, enable: true)
             }
+            onDisabled?()
             return Unmanaged.passUnretained(event)
         }
 

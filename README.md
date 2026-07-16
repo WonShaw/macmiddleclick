@@ -52,7 +52,7 @@ xcodebuild \
 - 检查公开的 `CGEventFlags.maskSecondaryFn` 标记。
 - 将事件改写为 `otherMouseDown`、`otherMouseDragged`、`otherMouseUp`，并把按钮号设置为 2。
 - 使用 `AXIsProcessTrusted` 请求事件改写所需的辅助功能权限。
-- 未授权时每 2 秒检查一次辅助功能权限；授权后降低为每 60 秒一次，并在用户打开菜单时立即检查，以兼顾恢复速度和后台能耗。
+- 在应用启动、用户打开菜单、前台应用切换，以及 Event Tap 被系统禁用时检查辅助功能权限并恢复事件监听；不使用定时轮询。
 - 使用 `SMAppService.mainApp` 注册或注销当前应用的登录项。
 
 不使用 `MultitouchSupport.framework` 或其他私有 API。
