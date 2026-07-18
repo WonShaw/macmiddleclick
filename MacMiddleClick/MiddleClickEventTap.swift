@@ -5,11 +5,16 @@ import Foundation
 final class MiddleClickEventTap {
     private var eventTap: CFMachPort?
     private var runLoopSource: CFRunLoopSource?
+    private var observesInvalidation = false
     private let eventConverter = MiddleClickEventConverter()
-    var onDisabled: (() -> Void)?
+    var onInterruption: (() -> Void)?
 
     var isRunning: Bool {
-        eventTap != nil
+        guard let eventTap else {
+            return false
+        }
+        return CFMachPortIsValid(eventTap)
+            && CGEvent.tapIsEnabled(tap: eventTap)
     }
 
     deinit {
@@ -18,8 +23,14 @@ final class MiddleClickEventTap {
 
     @discardableResult
     func start() -> Bool {
-        if isRunning {
-            return true
+        if let eventTap {
+            if CFMachPortIsValid(eventTap) {
+                CGEvent.tapEnable(tap: eventTap, enable: true)
+                if isRunning {
+                    return true
+                }
+            }
+            stop()
         }
 
         let eventTypes: [CGEventType] = [
@@ -50,8 +61,13 @@ final class MiddleClickEventTap {
 
         eventTap = tap
         runLoopSource = source
+        installInvalidationCallback(for: tap, userInfo: userInfo)
         CFRunLoopAddSource(CFRunLoopGetMain(), source, .commonModes)
         CGEvent.tapEnable(tap: tap, enable: true)
+        guard isRunning else {
+            stop()
+            return false
+        }
         return true
     }
 
@@ -64,9 +80,15 @@ final class MiddleClickEventTap {
         }
 
         if let tap = eventTap {
-            CGEvent.tapEnable(tap: tap, enable: false)
-            CFMachPortInvalidate(tap)
             eventTap = nil
+            if observesInvalidation {
+                CFMachPortSetInvalidationCallBack(tap, nil)
+                observesInvalidation = false
+            }
+            if CFMachPortIsValid(tap) {
+                CGEvent.tapEnable(tap: tap, enable: false)
+                CFMachPortInvalidate(tap)
+            }
         }
     }
 
@@ -76,11 +98,66 @@ final class MiddleClickEventTap {
             if let eventTap {
                 CGEvent.tapEnable(tap: eventTap, enable: true)
             }
-            onDisabled?()
+            onInterruption?()
             return Unmanaged.passUnretained(event)
         }
 
         return Unmanaged.passUnretained(eventConverter.process(type: type, event: event))
+    }
+
+    private func installInvalidationCallback(
+        for tap: CFMachPort,
+        userInfo: UnsafeMutableRawPointer
+    ) {
+        var context = CFMachPortContext(
+            version: 0,
+            info: nil,
+            retain: nil,
+            release: nil,
+            copyDescription: nil
+        )
+        CFMachPortGetContext(tap, &context)
+        guard context.info == userInfo,
+              CFMachPortGetInvalidationCallBack(tap) == nil else {
+            return
+        }
+
+        CFMachPortSetInvalidationCallBack(
+            tap,
+            middleClickEventTapInvalidationCallback
+        )
+        observesInvalidation = true
+    }
+
+    fileprivate func handleInvalidation(_ invalidatedTap: CFMachPort?) {
+        guard let invalidatedTap, let eventTap, eventTap === invalidatedTap else {
+            return
+        }
+
+        eventConverter.reset()
+        if let source = runLoopSource {
+            CFRunLoopRemoveSource(CFRunLoopGetMain(), source, .commonModes)
+            runLoopSource = nil
+        }
+        self.eventTap = nil
+        observesInvalidation = false
+        onInterruption?()
+    }
+}
+
+private func middleClickEventTapInvalidationCallback(
+    invalidatedTap: CFMachPort?,
+    userInfo: UnsafeMutableRawPointer?
+) {
+    guard let userInfo else {
+        return
+    }
+
+    let eventTap = Unmanaged<MiddleClickEventTap>
+        .fromOpaque(userInfo)
+        .takeUnretainedValue()
+    DispatchQueue.main.async { [weak eventTap] in
+        eventTap?.handleInvalidation(invalidatedTap)
     }
 }
 

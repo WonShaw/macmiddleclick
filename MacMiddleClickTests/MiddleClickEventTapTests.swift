@@ -36,7 +36,7 @@ final class MiddleClickEventTapTests: XCTestCase {
         for disabledType in [CGEventType.tapDisabledByTimeout, .tapDisabledByUserInput] {
             let eventTap = MiddleClickEventTap()
             var refreshCount = 0
-            eventTap.onDisabled = {
+            eventTap.onInterruption = {
                 refreshCount += 1
             }
 

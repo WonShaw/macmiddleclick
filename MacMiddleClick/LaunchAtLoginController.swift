@@ -130,9 +130,9 @@ final class LaunchAtLoginController {
 
     func toggle() throws {
         if isEnabledByUser {
+            try unregisterIfNeeded()
             preference.isEnabled = false
             registrationAttention = nil
-            try unregisterIfNeeded()
         } else {
             preference.isEnabled = true
             attemptRegistrationIfNeeded()

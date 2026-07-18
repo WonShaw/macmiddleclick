@@ -53,6 +53,8 @@ xcodebuild \
 - 将事件改写为 `otherMouseDown`、`otherMouseDragged`、`otherMouseUp`，并把按钮号设置为 2。
 - 使用 `AXIsProcessTrusted` 请求事件改写所需的辅助功能权限。
 - 在应用启动、用户打开菜单、前台应用切换，以及 Event Tap 被系统禁用时检查辅助功能权限并恢复事件监听；不使用定时轮询。
+- 检查 Event Tap 的启用状态和 Mach Port 有效性，并在端口失效时通过回调清理旧监听、触发自动重建。
+- 禁止同时运行多个 MacMiddleClick 实例，避免多个 Event Tap 重复处理输入。
 - 使用 `SMAppService.mainApp` 注册或注销当前应用的登录项。
 
 不使用 `MultitouchSupport.framework` 或其他私有 API。

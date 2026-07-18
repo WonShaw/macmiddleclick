@@ -125,6 +125,22 @@ final class LaunchAtLoginControllerTests: XCTestCase {
         XCTAssertNil(controller.attention)
     }
 
+    func testToggleOffFailurePreservesEnabledPreference() {
+        let service = MockLaunchAtLoginService(status: .enabled)
+        service.unregisterError = TestError.registrationFailed
+        let preference = MockLaunchAtLoginPreference(isEnabled: true)
+        let controller = LaunchAtLoginController(
+            service: service,
+            preference: preference
+        )
+
+        XCTAssertThrowsError(try controller.toggle())
+
+        XCTAssertTrue(preference.isEnabled)
+        XCTAssertEqual(service.unregisterCallCount, 1)
+        XCTAssertNil(controller.attention)
+    }
+
     func testToggleOnPersistsPreferenceAndRegisters() throws {
         let service = MockLaunchAtLoginService(status: .notRegistered)
         service.statusAfterRegister = .enabled
@@ -241,6 +257,7 @@ private final class MockLaunchAtLoginService: LaunchAtLoginServicing {
     var status: LaunchAtLoginStatus
     var statusAfterRegister: LaunchAtLoginStatus?
     var registerError: Error?
+    var unregisterError: Error?
     private(set) var registerCallCount = 0
     private(set) var unregisterCallCount = 0
     private(set) var openSettingsCallCount = 0
@@ -261,6 +278,9 @@ private final class MockLaunchAtLoginService: LaunchAtLoginServicing {
 
     func unregister() throws {
         unregisterCallCount += 1
+        if let unregisterError {
+            throw unregisterError
+        }
         status = .notRegistered
     }
 

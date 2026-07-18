@@ -44,7 +44,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             )
             self.workspaceActivationObserver = nil
         }
-        middleClickEventTap.onDisabled = nil
+        middleClickEventTap.onInterruption = nil
         middleClickEventTap.stop()
     }
 
@@ -108,7 +108,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     }
 
     private func configureEventDrivenPermissionChecks() {
-        middleClickEventTap.onDisabled = { [weak self] in
+        middleClickEventTap.onInterruption = { [weak self] in
             // Avoid invalidating the tap while its callback is still running.
             DispatchQueue.main.async { [weak self] in
                 self?.refreshEngineAndMenu()
